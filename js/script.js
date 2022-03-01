@@ -1,5 +1,9 @@
 document.getElementById('error-message').style.display='none';
+const phoneDetails = document.getElementById('phone-details');
+const searchResult = document.getElementById('search-result');
 const searchPhone = () => {
+    searchResult.textContent = '';
+    phoneDetails.textContent = '';
     const searchBar = document.getElementById('search-field');
     // console.log(searchBar);
     const textSearch = searchBar.value;
@@ -11,7 +15,7 @@ const searchPhone = () => {
 
      document.getElementById('error-message').style.display='none';
 
-     if(searchText == ''){
+     if(textSearch == ''){
 
     }
     else{
@@ -20,13 +24,18 @@ const searchPhone = () => {
         
         fetch(url)
             .then(res => res.json())
-            .then(data => displaySearchResult(data.data))
-            .catch(error => displayError(error));
+            .then(data => {
+                if (data.status == true) {
+                    displaySearchResult(data.data)
+                } else {
+                    displayError();
+                }
+            })
     }   
 }
-const displayError = error => {
+const displayError = () => {
     document.getElementById('error-message').style.display='block';
-}
+};
 
     
 
@@ -36,11 +45,8 @@ const displayError = error => {
 
 const displaySearchResult = phones => {
     // console.log(phones);
-    const searchResult = document.getElementById('search-result');
 
-    searchResult.textContent = '';
-
-    phones.forEach(data => {
+    phones.slice(0, 20).forEach(data => {
         // console.log(data);
         const div = document.createElement('div');
         div.classList.add('col');
@@ -74,34 +80,47 @@ const loadingPhoneDetail = id => {
     const url = `https://openapi.programming-hero.com/api/phone/${id}`;
     fetch(url)
         .then(res => res.json())
-        .then(data => displayPhoneDetail(data.data) )
+        .then(data => displayPhoneDetail(data.data))
    
 }
 
-const displayPhoneDetail = phones => {
+const displayPhoneDetail = (phones) => {
     console.log(phones);
 
-    const phoneDetails = document.getElementById('phone-details');
+    
     phoneDetails.textContent = ''
     const div = document.createElement('div');
-    div.classList.add('card');
 
     div.innerHTML = `
     
-    <img src="${phones.image}" class="card-img-top w-50 mx-auto py-2" >
-    <div class="card-body">
-      <h4 class="card-title fw-bold">${phones.name}</h4>
-      <p class="card-text">${phones.releaseDate}</p>
-      <h5>Main Features:-</h5>
-      <p>${phones.mainFeatures.storage}</p>
-      <p>${phones.mainFeatures.chipSet}</p>
-      <p>${phones.mainFeatures.memory}</p>
-      <p>${phones.mainFeatures.displaySize}</p>
+    <div class="card">
+    <h4 class="text-center text-success pb-4 pt-4">Detail information</h4>
+        <img src="${phones.image}" class="card-img-top w-50 mx-auto py-2" >
+        <div class="card-body">
+
+            <h4 class="card-title fw-bold">${phones.name}</h4>
+            <p class="card-text">${phones.releaseDate}</p>
+            <h5>Main Features:-</h5>
+        
+            <p class="card-text">Storage: ${phones.mainFeatures.storage}</p>
+            <p class="card-text">Chip set: ${phones.mainFeatures.chipSet}</p>
+            <p>${phones.mainFeatures.memory}</p>
+            <p>${phones.mainFeatures.displaySize}</p>
+            <h5>Sensor: </h5>
+            <p>Sensors: ${phones.mainFeatures.sensors}</p>
+
+            <h5>Others: </h5>
+            <p>WLAN: ${phones.others?.WLAN === undefined ? 'No' : phones.others?.WLAN}</p>
+            <p>Bluetooth: ${phones.others?.Bluetooth === undefined ? 'No' : phones.others?.Bluetooth}</p>
+            <p>GPS: ${phones.others?.GPS === undefined ? 'No' : phones.others?.GPS}</p>
+            <p>NFC: ${phones.others?.NFC === undefined ? 'No' : phones.others?.NFC}</p>
+            <p>Radio: ${phones.others?.Radio === undefined ? 'No' : phones.others?.Radio}</p>
+            <p>USB: ${phones.others?.USB === undefined ? 'No' : phones.others?.USB}</p>
+              
+        </div>
     </div>
-    
-    
-    
     `;
 
     phoneDetails.appendChild(div);
+    phoneDetails.scrollIntoView({ behavior: "smooth" })
 }
