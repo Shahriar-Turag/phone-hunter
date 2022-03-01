@@ -1,57 +1,50 @@
-document.getElementById('error-message').style.display='none';
-const phoneDetails = document.getElementById('phone-details');
-const searchResult = document.getElementById('search-result');
+document.getElementById("error-message").style.display = "none";
+const phoneDetails = document.getElementById("phone-details");
+const searchResult = document.getElementById("search-result");
 const searchPhone = () => {
-    searchResult.textContent = '';
-    phoneDetails.textContent = '';
-    const searchBar = document.getElementById('search-field');
+    searchResult.textContent = "";
+    phoneDetails.textContent = "";
+    const searchBar = document.getElementById("search-field");
     // console.log(searchBar);
     const textSearch = searchBar.value;
     // console.log(textSearch);
 
+    //clear data
+    searchBar.value = "";
 
-     //clear data 
-     searchBar.value = '';
+    document.getElementById("error-message").style.display = "none";
 
-     document.getElementById('error-message').style.display='none';
-
-     if(textSearch == ''){
-
-    }
-    else{
+    if (textSearch == "") {
+    } else {
         //load data
-        const url = `https://openapi.programming-hero.com/api/phones?search=${textSearch}`
-        
+        const url = `https://openapi.programming-hero.com/api/phones?search=${textSearch}`;
+
         fetch(url)
-            .then(res => res.json())
-            .then(data => {
+            .then((res) => res.json())
+            .then((data) => {
                 if (data.status == true) {
-                    displaySearchResult(data.data)
+                    displaySearchResult(data.data);
                 } else {
                     displayError();
                 }
-            })
-    }   
-}
+            });
+    }
+};
 const displayError = () => {
-    document.getElementById('error-message').style.display='block';
+    document.getElementById("error-message").style.display = "block";
 };
 
-    
+// display Result Function here
 
-
-
-// display Result Function here 
-
-const displaySearchResult = phones => {
+const displaySearchResult = (phones) => {
     // console.log(phones);
 
-    phones.slice(0, 20).forEach(data => {
+    phones.slice(0, 20).forEach((data) => {
         // console.log(data);
-        const div = document.createElement('div');
-        div.classList.add('col');
+        const div = document.createElement("div");
+        div.classList.add("col");
 
-        div.innerHTML= `
+        div.innerHTML = `
         
         <div class="card card-secondary text-center">
             <h4 class="card-title text-center">${data.brand}</h4>
@@ -66,30 +59,25 @@ const displaySearchResult = phones => {
         `;
         // console.log(data.slug);
         searchResult.appendChild(div);
-
     });
-}
-
-
+};
 
 // show detail function
 
-const loadingPhoneDetail = id => {
+const loadingPhoneDetail = (id) => {
     console.log(id);
 
     const url = `https://openapi.programming-hero.com/api/phone/${id}`;
     fetch(url)
-        .then(res => res.json())
-        .then(data => displayPhoneDetail(data.data))
-   
-}
+        .then((res) => res.json())
+        .then((data) => displayPhoneDetail(data.data));
+};
 
 const displayPhoneDetail = (phones) => {
     console.log(phones);
 
-    
-    phoneDetails.textContent = ''
-    const div = document.createElement('div');
+    phoneDetails.textContent = "";
+    const div = document.createElement("div");
 
     div.innerHTML = `
     
@@ -110,17 +98,31 @@ const displayPhoneDetail = (phones) => {
             <p>Sensors: ${phones.mainFeatures.sensors}</p>
 
             <h5>Others: </h5>
-            <p>WLAN: ${phones.others?.WLAN === undefined ? 'No' : phones.others?.WLAN}</p>
-            <p>Bluetooth: ${phones.others?.Bluetooth === undefined ? 'No' : phones.others?.Bluetooth}</p>
-            <p>GPS: ${phones.others?.GPS === undefined ? 'No' : phones.others?.GPS}</p>
-            <p>NFC: ${phones.others?.NFC === undefined ? 'No' : phones.others?.NFC}</p>
-            <p>Radio: ${phones.others?.Radio === undefined ? 'No' : phones.others?.Radio}</p>
-            <p>USB: ${phones.others?.USB === undefined ? 'No' : phones.others?.USB}</p>
+            <p>WLAN: ${
+                phones.others?.WLAN === undefined ? "No" : phones.others?.WLAN
+            }</p>
+            <p>Bluetooth: ${
+                phones.others?.Bluetooth === undefined
+                    ? "No"
+                    : phones.others?.Bluetooth
+            }</p>
+            <p>GPS: ${
+                phones.others?.GPS === undefined ? "No" : phones.others?.GPS
+            }</p>
+            <p>NFC: ${
+                phones.others?.NFC === undefined ? "No" : phones.others?.NFC
+            }</p>
+            <p>Radio: ${
+                phones.others?.Radio === undefined ? "No" : phones.others?.Radio
+            }</p>
+            <p>USB: ${
+                phones.others?.USB === undefined ? "No" : phones.others?.USB
+            }</p>
               
         </div>
     </div>
     `;
 
     phoneDetails.appendChild(div);
-    phoneDetails.scrollIntoView({ behavior: "smooth" })
-}
+    phoneDetails.scrollIntoView({ behavior: "smooth" });
+};
