@@ -95,14 +95,24 @@ const displayPhoneDetail = (phones) => {
                     ? "No release date found"
                     : phones.releaseDate
             }</p>
-            <h5>Main Features: </h5>
+            <h5>Main Features:</h5>
         
             <p class="card-text">Storage: ${phones.mainFeatures.storage}</p>
-            <p class="card-text">Chip set: ${phones.mainFeatures.chipSet}</p>
+            <p class="card-text">Chip set: ${
+                phones.mainFeatures.chipSet === undefined
+                    ? "No"
+                    : phones.mainFeatures.chipSet
+            }</p>
             <p>Memory: ${phones.mainFeatures.memory}</p>
             <p>Display: ${phones.mainFeatures.displaySize}</p>
             <h5>Sensor: </h5>
-            <p>Sensors: ${phones.mainFeatures.sensors}</p>
+            <ul class="">
+    ${phones.mainFeatures.sensors
+        .map((i) => {
+            return `<li>${i}</li>`;
+        })
+        .join(" ")}
+</ul>
 
             <h5>Others: </h5>
             <p>WLAN: ${
