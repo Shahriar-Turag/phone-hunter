@@ -95,7 +95,7 @@ const displayPhoneDetail = (phones) => {
                     ? "No release date found"
                     : phones.releaseDate
             }</p>
-            <h5>Main Features:-</h5>
+            <h5>Main Features: </h5>
         
             <p class="card-text">Storage: ${phones.mainFeatures.storage}</p>
             <p class="card-text">Chip set: ${phones.mainFeatures.chipSet}</p>
