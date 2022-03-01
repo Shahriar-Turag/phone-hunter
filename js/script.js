@@ -99,8 +99,8 @@ const displayPhoneDetail = (phones) => {
         
             <p class="card-text">Storage: ${phones.mainFeatures.storage}</p>
             <p class="card-text">Chip set: ${phones.mainFeatures.chipSet}</p>
-            <p>${phones.mainFeatures.memory}</p>
-            <p>${phones.mainFeatures.displaySize}</p>
+            <p>Memory: ${phones.mainFeatures.memory}</p>
+            <p>Display: ${phones.mainFeatures.displaySize}</p>
             <h5>Sensor: </h5>
             <p>Sensors: ${phones.mainFeatures.sensors}</p>
 
