@@ -1,3 +1,4 @@
+document.getElementById("spinner").style.display = "none";
 document.getElementById("error-message").style.display = "none";
 const phoneDetails = document.getElementById("phone-details");
 const searchResult = document.getElementById("search-result");
@@ -18,6 +19,7 @@ const searchPhone = () => {
     } else {
         //load data
         const url = `https://openapi.programming-hero.com/api/phones?search=${textSearch}`;
+        document.getElementById("spinner").style.display = "block";
 
         fetch(url)
             .then((res) => res.json())
@@ -58,6 +60,7 @@ const displaySearchResult = (phones) => {
         
         `;
         // console.log(data.slug);
+        document.getElementById("spinner").style.display = "none";
         searchResult.appendChild(div);
     });
 };
@@ -87,7 +90,11 @@ const displayPhoneDetail = (phones) => {
         <div class="card-body">
 
             <h4 class="card-title fw-bold">${phones.name}</h4>
-            <p class="card-text">${phones.releaseDate}</p>
+            <p class="card-text">${
+                phones.releaseDate === ""
+                    ? "No release date found"
+                    : phones.releaseDate
+            }</p>
             <h5>Main Features:-</h5>
         
             <p class="card-text">Storage: ${phones.mainFeatures.storage}</p>
